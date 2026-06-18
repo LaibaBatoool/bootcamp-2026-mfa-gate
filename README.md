@@ -135,4 +135,4 @@ This runs the full Jest suite: unit tests for the PIN service, unit tests for th
 
 ## AI code review
 
-This project was reviewed using [tool name] prior to requesting human review. See the Pull Request description for a summary of findings and how they were addressed.
+This project was reviewed using CodeRabbit prior to requesting human review. See the Pull Request description for details on the review scope and findings.
