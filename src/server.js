@@ -29,12 +29,18 @@ app.get('/health', (req, res) => {
 
 // Background sweep job — the standalone "cleanup mechanism" required
 // by the brief, independent of the check-on-read cleanup inside verifyPin().
-setInterval(() => {
-  cleanupExpired();
-}, CLEANUP_INTERVAL_MS);
+//
+// Only runs when this file is executed directly (e.g. `node src/server.js`
+// or `npm start`) — not when it's imported by tests via require('../src/server'),
+// since tests just want the Express `app` object, not a live server + timer.
+if (require.main === module) {
+  setInterval(() => {
+    cleanupExpired();
+  }, CLEANUP_INTERVAL_MS);
 
-app.listen(PORT, () => {
-  console.log(`[server] MFA Gate API listening on http://localhost:${PORT}`);
-});
+  app.listen(PORT, () => {
+    console.log(`[server] MFA Gate API listening on http://localhost:${PORT}`);
+  });
+}
 
 module.exports = app;
