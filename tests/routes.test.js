@@ -1,5 +1,4 @@
-// tests/routes.test.js
-//
+
 // HTTP-level tests for the actual API endpoints (/login, /verify, /health),
 // using supertest to make real requests against the Express app object
 // without needing a server actually running on a port.
@@ -113,3 +112,5 @@ describe('POST /verify (TOTP path)', () => {
     expect(res.body.reason).toBe('INVALID_TOTP');
   });
 });
+
+

@@ -5,9 +5,6 @@
 //   - validate a submitted PIN against the stored one
 //   - enforce a max-attempts cap
 //   - clean up expired/used rows
-//
-// This file is intentionally the most heavily tested part of the project,
-// since it's the actual "business logic" the bootcamp brief asks for.
 
 const db = require('./db');
 const { sendPin } = require('./notifier');
