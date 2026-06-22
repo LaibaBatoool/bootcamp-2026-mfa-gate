@@ -1,5 +1,4 @@
 // src/notifier.js
-//
 // Mocks the "send PIN to user's device" step of an MFA flow.
 //
 // In a real system, this would call Twilio (SMS) or an email provider.

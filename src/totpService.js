@@ -1,4 +1,4 @@
-// src/totpService.js
+
 //
 // Implements the bonus TOTP (Time-based One-Time Password) flow —
 // the same mechanism apps like Google Authenticator or Authy use.

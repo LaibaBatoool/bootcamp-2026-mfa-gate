@@ -1,5 +1,4 @@
 // tests/totpService.test.js
-//
 // Tests the TOTP (authenticator-app style) bonus flow: secret registration,
 // QR code generation, and code verification — including failure cases.
 //

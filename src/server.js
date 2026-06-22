@@ -1,8 +1,7 @@
-// src/server.js
-//
 // Entry point for the MFA Gate API. Wires together the login and verify
 // routes, seeds mock users on startup, and starts a periodic cleanup
 // sweep for expired PIN rows.
+//
 
 const express = require('express');
 const { seedUsers } = require('./users');
@@ -42,5 +41,4 @@ if (require.main === module) {
     console.log(`[server] MFA Gate API listening on http://localhost:${PORT}`);
   });
 }
-
 module.exports = app;

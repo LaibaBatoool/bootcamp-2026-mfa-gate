@@ -1,5 +1,4 @@
 // src/routes/verify.js
-//
 // POST /verify
 // Checks a submitted code against either a pending PIN login,
 // or a user's TOTP secret — depending on which fields are sent.

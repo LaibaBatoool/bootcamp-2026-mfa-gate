@@ -1,5 +1,4 @@
 // tests/pinService.test.js
-//
 // Tests the core MFA business logic: PIN generation, successful verify,
 // wrong-PIN handling, attempt lockout, and expiry.
 //

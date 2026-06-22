@@ -1,5 +1,4 @@
 // src/routes/login.js
-//
 // POST /login
 // Starts a new login attempt for a user: generates a PIN, stores it
 // with a 5-minute expiry, and "sends" it via the notifier.

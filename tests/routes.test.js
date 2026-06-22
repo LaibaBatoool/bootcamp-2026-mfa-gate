@@ -1,4 +1,4 @@
-
+// tests/routes.test.js
 // HTTP-level tests for the actual API endpoints (/login, /verify, /health),
 // using supertest to make real requests against the Express app object
 // without needing a server actually running on a port.
