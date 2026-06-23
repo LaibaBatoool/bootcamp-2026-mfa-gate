@@ -12,7 +12,7 @@ This project implements two independent MFA mechanisms on top of a Node.js + Exp
 Building both side by side is the point: it makes the structural difference between "deliver-and-store" and "independently-compute" authentication immediately obvious.
 
 ## ⚙️ Features
-
+`
 ✅ 6-digit PIN generation with 5-minute expiry
 ✅ Retry limit (max 3 attempts), then permanent lockout
 ✅ SQLite persistence (WAL mode) — survives server restarts
@@ -21,6 +21,7 @@ Building both side by side is the point: it makes the structural difference betw
 ✅ Time-based, stateless TOTP verification
 ✅ 27 automated tests (unit + HTTP-level)
 ✅ GitHub Actions CI on every push/PR
+`
 
 ## 🔄 Authentication Flows
 
