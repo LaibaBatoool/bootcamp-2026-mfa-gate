@@ -6,23 +6,16 @@ The MFA Gate is a Node.js + Express API backed by SQLite, implementing two indep
 
 ## Components
 
-src/
-
-db.js              SQLite connection, WAL mode, schema (users, pending_logins)
-
-users.js           Mock user store: seeding, lookups, TOTP secret storage
-
-notifier.js        Simulated delivery channel (console + log file)
-
-pinService.js      PIN generation, expiry, attempt limiting, cleanup
-
-totpService.js     TOTP secret registration, QR generation, verification
-
-routes/login.js    POST /login — starts a PIN attempt
-
-routes/verify.js   POST /verify — verifies either a PIN or a TOTP code
-
-server.js          Express app wiring, route mounting, background sweep
+| File Name               | Description                                                                 |
+|------------------------|-----------------------------------------------------------------------------|
+| `src/db.js`            | SQLite connection, WAL mode, schema setup (users, pending_logins).          |
+| `src/users.js`         | Mock user store: seeding, lookups, TOTP secret storage.                     |
+| `src/notifier.js`      | Simulated delivery channel (console output + log file).                     |
+| `src/pinService.js`    | Handles PIN generation, expiry, attempt limits, and cleanup.                |
+| `src/totpService.js`   | Manages TOTP secret registration, QR code generation, and verification.     |
+| `src/routes/login.js`  | `POST /login` — initiates a PIN-based login attempt.                        |
+| `src/routes/verify.js` | `POST /verify` — verifies a PIN or TOTP authentication code.                |
+| `src/server.js`        | Express app setup, route mounting, and background cleanup tasks.            |
 
 Each file has a single responsibility, and the routing layer is intentionally thin — `routes/login.js` and `routes/verify.js` only translate HTTP requests into calls against `pinService.js` / `totpService.js`. All actual business logic lives in the service layer, which means it can be (and is) tested directly without needing an HTTP server running at all.
 
