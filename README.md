@@ -14,12 +14,19 @@ Building both side by side is the point: it makes the structural difference betw
 ## ⚙️ Features
 `
 ✅ 6-digit PIN generation with 5-minute expiry
+
 ✅ Retry limit (max 3 attempts), then permanent lockout
+
 ✅ SQLite persistence (WAL mode) — survives server restarts
+
 ✅ Check-on-read + background cleanup sweep for expired PINs
+
 ✅ TOTP secret registration + QR code generation
+
 ✅ Time-based, stateless TOTP verification
+
 ✅ 27 automated tests (unit + HTTP-level)
+
 ✅ GitHub Actions CI on every push/PR
 `
 
