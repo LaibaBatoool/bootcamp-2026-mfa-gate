@@ -13,7 +13,7 @@ The brief asks us to show what happens to a pending login attempt if the server 
 
 ## Evidence
 
-See `screenshots/failure-mode-demo1.png & screenshots/failure-mode-demo2.png` for the full terminal sequence. The key observations:
+See `screenshots/failure-demo1.png & screenshots/failure-demo2.png` for the full terminal sequence. The key observations:
 
 **Before restart** — a login attempt is started for user 1, returning `loginId: 7` with PIN `220245`. Querying `getAllPendingLogins()` confirms the row exists in the `pending_logins` table.
 
