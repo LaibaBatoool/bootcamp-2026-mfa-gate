@@ -97,6 +97,43 @@ A pending PIN row was deliberately left unverified, then the server was killed a
 
 Full writeup + screenshots: [`docs/failure-mode-demo.md`](docs/failure-mode-demo.md)
 
+## ⏱ Temporal Workflow Integration
+
+To explore durable execution as an alternative to the raw SQLite approach above, the PIN flow was re-implemented on top of [Temporal](https://temporal.io/) — a workflow orchestration engine that keeps state alive across crashes and restarts without you managing that persistence by hand.
+
+### Why Temporal
+The original PIN flow relies on manually persisting and cleaning up state (SQLite rows, expiry sweeps, retry counters). Temporal handles all of that inside a durable workflow: if the worker process crashes mid-verification, the workflow simply resumes from where it left off — no orphaned rows, no manual sweep needed.
+
+### How it works
+1. `/login` starts a Temporal workflow and returns a `workflowId` in the response
+2. The 6-digit PIN is generated inside the workflow and logged to the terminal (simulated delivery, same as the original flow)
+3. The frontend uses the `workflowId` to check verification status
+4. On submit, the UI reflects the workflow's outcome — `false` for a failed/incorrect PIN, `true` for a successful verification
+
+![Temporal workflow architecture](temporal_flowchart.png)
+
+### Running it locally
+Requires the [Temporal CLI](https://docs.temporal.io/cli) installed. Then, across three terminals:
+
+```bash
+# Terminal 1 — start the local Temporal server
+cd bootcamp-2026-mfa-gate
+temporal server start-dev
+
+# Terminal 2 — start the workflow worker
+node src/temporal/worker.js
+
+# Terminal 3 — start the app
+npm start
+```
+
+Full command reference: `docs/temporal-workflow-commands.md`
+
+### Demo
+| Login triggers workflow | Workflow created in Temporal | Verification result |
+|---|---|---|
+| ![Login](screenshots/temporal%20login.png) | ![Workflow creation](screenshots/temporal%20workflow%20creation.png) | ![Verification](screenshots/temporal%20login%20verification.png) |
+
 ## 📋 Assumptions
 
 - `loginId` is a raw database id for simplicity; production would use a signed token instead
@@ -116,6 +153,7 @@ src/
   pinService.js, totpService.js      Core MFA logic
   routes/login.js, routes/verify.js  Express routes
   server.js                         App entry point
+  temporal/                         Temporal workflow, activities, and worker
 tests/                              Jest unit + HTTP-level tests
 docs/                               Failure-mode demo, testing commands
 screenshots/                        Demo evidence
