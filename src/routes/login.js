@@ -39,7 +39,7 @@ router.post('/', async (req, res) => {
     });
   } catch (err) {
     console.error('[routes/login] Error starting workflow:', err.message);
-    res.status(404).json({ error: err.message });
+    res.status(503).json({ error: err.message });
   }
 });
 
