@@ -7,7 +7,7 @@
 // Activities run in the Worker process — they have full access to
 // Node.js APIs, the database, notifier, etc.
 
-const { generatePin, cleanupExpired } = require('../pinService');
+const { generatePin } = require('../pinService');
 const { getUserById } = require('../users');
 const { sendPin } = require('../notifier');
 const db = require('../db');
