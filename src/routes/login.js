@@ -4,9 +4,18 @@ const router = express.Router();
 const { Connection, Client } = require('@temporalio/client');
 const { getUserById } = require('../users');
 
+let temporalClientPromise;
+
 async function getTemporalClient() {
-  const connection = await Connection.connect({ address: 'localhost:7233' });
-  return new Client({ connection });
+  if (!temporalClientPromise) {
+    temporalClientPromise = (async () => {
+      const connection = await Connection.connect({
+        address: process.env.TEMPORAL_ADDRESS || 'localhost:7233',
+      });
+      return new Client({ connection });
+    })();
+  }
+  return temporalClientPromise;
 }
 
 router.post('/', async (req, res) => {
