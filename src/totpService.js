@@ -54,12 +54,11 @@ async function generateQrCode(userId) {
     throw new Error(`User ${userId} has no TOTP secret. Call registerTotp() first.`);
   }
 
-  const otpauthUri = generateURI({
-    strategy: 'totp',
-    issuer: 'BootcampMFAGate', // the "issuer" name shown in the authenticator app
-    label: user.email || user.name,
-    secret: user.totp_secret,
-  });
+  const otpauthUri = authenticator.keyuri(
+    user.email || user.name,
+    'BootcampMFAGate',
+    user.totp_secret
+  );
 
   const qrDataUrl = await qrcode.toDataURL(otpauthUri);
 
