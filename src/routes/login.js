@@ -1,16 +1,14 @@
-// src/routes/login.js
-// POST /login
-// Starts a new login attempt for a user: generates a PIN, stores it
-// with a 5-minute expiry, and "sends" it via the notifier.
-//
-// Request body:  { "userId": 1 }
-// Response:      { "loginId": 7, "message": "PIN sent to registered device" }
-
+// src/routes/login.js (updated for Temporal)
 const express = require('express');
 const router = express.Router();
-const { startLogin } = require('../pinService');
+const { Connection, Client } = require('@temporalio/client');
 
-router.post('/', (req, res) => {
+async function getTemporalClient() {
+  const connection = await Connection.connect({ address: 'localhost:7233' });
+  return new Client({ connection });
+}
+
+router.post('/', async (req, res) => {
   const { userId } = req.body;
 
   if (!userId) {
@@ -18,13 +16,25 @@ router.post('/', (req, res) => {
   }
 
   try {
-    const loginId = startLogin(userId);
+    const client = await getTemporalClient();
+
+    // Start the workflow — Temporal assigns it a unique ID
+    const workflowId = `mfa-login-${userId}-${Date.now()}`;
+
+    const handle = await client.workflow.start('mfaLoginWorkflow', {
+      taskQueue: 'mfa-gate',
+      workflowId,
+      args: [userId],
+    });
+
+    console.log(`[routes/login] Started workflow ${workflowId} for user ${userId}`);
+
     res.status(201).json({
-      loginId,
+      workflowId,
       message: 'PIN sent to registered device',
     });
   } catch (err) {
-    console.error(`[routes/login] Error starting login:`, err.message);
+    console.error('[routes/login] Error starting workflow:', err.message);
     res.status(404).json({ error: err.message });
   }
 });

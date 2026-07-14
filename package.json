@@ -25,10 +25,15 @@
   },
   "homepage": "https://github.com/LaibaBatoool/bootcamp-2026-mfa-gate#readme",
   "dependencies": {
+    "@temporalio/activity": "^1.20.2",
+    "@temporalio/client": "^1.20.2",
+    "@temporalio/worker": "^1.20.2",
+    "@temporalio/workflow": "^1.20.2",
     "better-sqlite3": "^12.11.1",
     "express": "^5.2.1",
     "otplib": "^13.4.1",
-    "qrcode": "^1.5.4"
+    "qrcode": "^1.5.4",
+    "tslib": "^2.6.2"
   },
   "devDependencies": {
     "@babel/core": "^8.0.1",
