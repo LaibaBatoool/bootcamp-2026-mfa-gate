@@ -64,7 +64,7 @@ async function checkPin(loginId, submittedPin) {
   }
 
   const newAttempts = row.attempts + 1;
-  if (newAttempts >= 3) {
+  if (newAttempts >= require('../pinService').MAX_ATTEMPTS) {
     db.prepare('DELETE FROM pending_logins WHERE id = ?').run(loginId);
     return { success: false, reason: 'MAX_ATTEMPTS_REACHED' };
   }
