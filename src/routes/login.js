@@ -2,6 +2,7 @@
 const express = require('express');
 const router = express.Router();
 const { Connection, Client } = require('@temporalio/client');
+const { getUserById } = require('../users');
 
 async function getTemporalClient() {
   const connection = await Connection.connect({ address: 'localhost:7233' });
@@ -15,6 +16,9 @@ router.post('/', async (req, res) => {
     return res.status(400).json({ error: 'userId is required' });
   }
 
+  if (!getUserById(userId)) {
+    return res.status(404).json({ error: `No user found with id ${userId}` });
+  }
   try {
     const client = await getTemporalClient();
 
