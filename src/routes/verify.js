@@ -18,7 +18,10 @@ async function getTemporalClient() {
         address: process.env.TEMPORAL_ADDRESS || 'localhost:7233',
       });
       return new Client({ connection });
-    })();
+    })().catch((err) => {
+      temporalClientPromise = undefined;
+      throw err;
+    });
   }
   return temporalClientPromise;
 }
