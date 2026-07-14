@@ -32,7 +32,7 @@ function registerTotp(userId) {
     throw new Error(`No user found with id ${userId}`);
   }
 
-  const secret = generateSecret();
+  const secret = authenticator.generateSecret();
   setTotpSecret(userId, secret);
 
   console.log(`[totpService] Generated TOTP secret for user ${userId}`);
