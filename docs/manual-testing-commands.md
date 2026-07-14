@@ -29,7 +29,7 @@ URL: http://localhost:3000/login
 Body (JSON):
 
 `json{ "userId": 1 }`
-Click Send. Note the loginId from the response, and check the server terminal for the PIN.
+Click Send. Note the workflowId from the response, and check the server terminal for the PIN.
 
 
 
@@ -39,8 +39,8 @@ Method: POST
 URL: http://localhost:3000/verify
 Body (JSON):
 
-`json{ "loginId": 5, "pin": "123456" }`
-(replace with your real loginId and PIN)
+`json{ "workflowId": "<workflowId from Step 2>", "pin": "123456" }`
+(replace with your real workflowId and PIN)
 
 
 Terminal — Step 4: Generate current TOTP code
