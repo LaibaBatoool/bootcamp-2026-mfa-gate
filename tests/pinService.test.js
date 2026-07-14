@@ -37,15 +37,14 @@ describe('generatePin', () => {
   });
 
   test('zero-pads short numbers correctly', () => {
-    // Force Math.random to return a value that maps to a small number,
-    // to confirm padding works (e.g. 42 -> "000042").
-    const originalRandom = Math.random;
-    Math.random = () => 0.000042;
+    const crypto = require('crypto');
+    const spy = jest.spyOn(crypto, 'randomInt').mockReturnValue(42);
 
     const pin = generatePin();
-    expect(pin).toHaveLength(6);
 
-    Math.random = originalRandom;
+    expect(pin).toBe('000042');
+
+    spy.mockRestore();
   });
 });
 
