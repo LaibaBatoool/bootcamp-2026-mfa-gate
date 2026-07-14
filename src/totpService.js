@@ -13,7 +13,7 @@
 // (generate({ secret }), verify({ secret, token })) rather than the
 // older `authenticator.generate(secret)` style from earlier versions.
 
-const { generateSecret, generate, verify, generateURI } = require('otplib');
+const { authenticator } = require('otplib');
 const qrcode = require('qrcode');
 const { setTotpSecret, getUserById } = require('./users');
 
