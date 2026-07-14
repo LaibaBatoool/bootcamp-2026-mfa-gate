@@ -6,4 +6,4 @@ then `temporal server start-dev`
 run `node src/temporal/worker.js`
 
 ## Step 3 : On third terminal :
-run `npm start`
+run `ENABLE_TEMPORAL=true npm start`

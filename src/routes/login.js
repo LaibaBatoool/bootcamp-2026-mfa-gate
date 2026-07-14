@@ -3,8 +3,13 @@ const express = require('express');
 const router = express.Router();
 const { Connection, Client } = require('@temporalio/client');
 const { getUserById } = require('../users');
+const { startLogin } = require('../pinService');
 
 let temporalClientPromise;
+
+function isTemporalEnabled() {
+  return process.env.ENABLE_TEMPORAL === 'true';
+}
 
 async function getTemporalClient() {
   if (!temporalClientPromise) {
@@ -28,6 +33,12 @@ router.post('/', async (req, res) => {
   if (!getUserById(userId)) {
     return res.status(404).json({ error: `No user found with id ${userId}` });
   }
+
+  if (!isTemporalEnabled()) {
+    const loginId = startLogin(userId);
+    return res.status(201).json({ loginId: Number(loginId) });
+  }
+
   try {
     const client = await getTemporalClient();
 

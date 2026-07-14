@@ -3,8 +3,13 @@ const express = require('express');
 const router = express.Router();
 const { Connection, Client } = require('@temporalio/client');
 const { verifyTotp } = require('../totpService');
+const { verifyPin } = require('../pinService');
 
 let temporalClientPromise;
+
+function isTemporalEnabled() {
+  return process.env.ENABLE_TEMPORAL === 'true';
+}
 
 async function getTemporalClient() {
   if (!temporalClientPromise) {
@@ -19,7 +24,7 @@ async function getTemporalClient() {
 }
 
 router.post('/', async (req, res) => {
-  const { workflowId, pin, userId, totp } = req.body;
+  const { workflowId, loginId, pin, userId, totp } = req.body;
 
   // TOTP path — unchanged, still stateless
   if (userId && totp) {
@@ -32,8 +37,15 @@ router.post('/', async (req, res) => {
     }
   }
 
-  // PIN path — send signal to the running Temporal workflow
-  if (workflowId && pin) {
+  // PIN path — local mode (default) keeps legacy loginId contract.
+  if (loginId && pin && !isTemporalEnabled()) {
+    const result = verifyPin(Number(loginId), pin);
+    const statusCode = result.success ? 200 : 401;
+    return res.status(statusCode).json({ ...result, method: 'pin' });
+  }
+
+  // PIN path — Temporal mode uses workflow signals.
+  if (workflowId && pin && isTemporalEnabled()) {
     try {
       const client = await getTemporalClient();
       const handle = client.workflow.getHandle(workflowId);
@@ -53,7 +65,7 @@ router.post('/', async (req, res) => {
   }
 
   return res.status(400).json({
-    error: 'Provide either { workflowId, pin } or { userId, totp }',
+    error: 'Provide either { loginId, pin }, { workflowId, pin }, or { userId, totp }',
   });
 });
 

@@ -123,8 +123,8 @@ temporal server start-dev
 # Terminal 2 — start the workflow worker
 node src/temporal/worker.js
 
-# Terminal 3 — start the app
-npm start
+# Terminal 3 — start the app in Temporal mode
+ENABLE_TEMPORAL=true npm start
 ```
 
 Full command reference: `docs/temporal-workflow-commands.md`
