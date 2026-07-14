@@ -18,7 +18,8 @@ const MAX_ATTEMPTS = 3;
  * e.g. "004821" instead of just 4821.
  */
 function generatePin() {
-  const num = Math.floor(Math.random() * 1_000_000); // 0 to 999999
+  const crypto = require('crypto');
+  const num = crypto.randomInt(0, 1_000_000); // 0 to 999999
   return String(num).padStart(6, '0');
 }
 
